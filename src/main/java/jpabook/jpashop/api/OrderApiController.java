@@ -28,7 +28,7 @@ public class OrderApiController {
     private final OrderRepository orderRepository;
     private final OrderQueryRepository orderQueryRepository;
 
-    @GetMapping("/api/v1/orders") //V1 : 엔티티 직접 노출
+    @GetMapping("/api/v1/orders") //v1 : 엔티티 직접 노출
     public List<Order> orderV1(){
         List<Order> all = orderRepository.findAllByString(new OrderSearch());
         for (Order order : all) {
@@ -41,7 +41,7 @@ public class OrderApiController {
         return all;
     }
 
-    @GetMapping("/api/v2/orders")//V2 : 엔티티를 DTO로 변환
+    @GetMapping("/api/v2/orders")//v2 : 엔티티를 DTO로 변환
     public List<OrderDto> ordersV2() {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
         List<OrderDto> result = orders.stream()
@@ -50,7 +50,7 @@ public class OrderApiController {
         return result;
     }
 
-    @GetMapping("/api/v3/orders")//V3 : 엔티티를 DTO로 변환 - 페치 조인 최적화
+    @GetMapping("/api/v3/orders")//v3 : 엔티티를 DTO로 변환 - 페치 조인 최적화
     public List<OrderDto> ordersV3() {
         List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> result = orders.stream()
@@ -64,7 +64,7 @@ public class OrderApiController {
      * (1) ToOne 관계 : 우선 모두 페치 조인으로 최적화
      * (2) 컬렉션 관계 : hibernate.default_batch_fetch_size, @BatchSize로 최적화
      **/
-    @GetMapping("/api/v3.1/orders")//V3.1 : 엔티티를 DTO로 변환 - 페이징과 한계 돌파
+    @GetMapping("/api/v3.1/orders")//v3.1 : 엔티티를 DTO로 변환 - 페이징과 한계 돌파
     public List<OrderDto> ordersV3_page(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                         @RequestParam(value = "limit", defaultValue = "100") int limit) {
 
@@ -76,17 +76,17 @@ public class OrderApiController {
         return result;
     }
 
-    @GetMapping("/api/v4/orders")//V4 : JPA에서 DTO로 직접 조회
+    @GetMapping("/api/v4/orders")//v4 : JPA에서 DTO로 직접 조회
     public List<OrderQueryDto> ordersV4() {
         return orderQueryRepository.findOrderQueryDtos();
     }
 
-    @GetMapping("/api/v5/orders")//V5 : JPA에서 DTO로 직접 조회 - 컬렉션 조회 최적화
+    @GetMapping("/api/v5/orders")//v5 : JPA에서 DTO로 직접 조회 - 컬렉션 조회 최적화
     public List<OrderQueryDto> ordersV5() {
         return orderQueryRepository.findAllByDto_optimization();
     }
 
-    @GetMapping("/api/v6/orders")//V6 : JPA에서 DTO로 직접 조회 - 플랫 데이터 최적화
+    @GetMapping("/api/v6/orders")//v6 : JPA에서 DTO로 직접 조회 - 플랫 데이터 최적화
     public List<OrderQueryDto> ordersV6() {
 
         List<OrderFlatDto> flats = orderQueryRepository.findAllByDto_flat();

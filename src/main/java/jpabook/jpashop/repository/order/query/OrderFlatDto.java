@@ -5,7 +5,7 @@ import jpabook.jpashop.domain.OrderStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-
+//v6
 @Data
 public class OrderFlatDto {
     private Long orderId;

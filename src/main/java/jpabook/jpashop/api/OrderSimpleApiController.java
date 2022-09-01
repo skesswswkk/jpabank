@@ -7,6 +7,7 @@ import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,7 @@ public class OrderSimpleApiController {
     @GetMapping("/api/v3/simple-orders")
     public List<OrderSimpleDto> ordersV3(){ //v2해결책 : 페치 조인으로 성능 최적화
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
-        List<OrderSimpleDto> result = orders.stream()
+        List<OrderSimpleDto> result = orders.stream()//문제점 : Entity -> DTO 변환 과정 필요
                 .map(o -> new OrderSimpleDto(o))
                 .collect(Collectors.toList());
 

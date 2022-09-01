@@ -16,7 +16,8 @@ public class OrderQueryRepository {
 
     /**
      * 컬렉션은 별도로 조회
-     * Query: 루트 1번, 컬렉션 N 번 * 단건 조회에서 많이 사용하는 방식
+     * Query: 루트 1번, 컬렉션 N 번 -> N + 1 문제점
+     * 단건 조회에서 많이 사용하는 방식
      */
     //v4
     public List<OrderQueryDto> findOrderQueryDtos() { //루트 조회(toOne 코드를 모두 한번에 조회)
@@ -54,23 +55,22 @@ public class OrderQueryRepository {
         .getResultList();
     }
 
+    //v5
     public List<OrderQueryDto> findAllByDto_optimization() {
         //루트 조회(toOne 코드를 모두 한번에 조회)
-        List<OrderQueryDto> result = findOrders();
+        List<OrderQueryDto> result = findOrders();//OrderQueryDto 2개
+
+        List<Long> orderIds = result.stream()
+                .map(o -> o.getOrderId())
+                .collect(Collectors.toList()); //4, 11
 
         //orderItem 컬렉션을 MAP 한방에 조회
-        Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(toOrderIds(result));
+        Map<Long, List<OrderItemQueryDto>> orderItemMap = findOrderItemMap(orderIds);
 
-        //루프를 돌면서 컬렉션 추가(추가 쿼리 실행X)
+        //루프를 돌면서(4, 11) 컬렉션 추가(추가 쿼리 실행X)
         result.forEach(o -> o.setOrderItems(orderItemMap.get(o.getOrderId())));
 
         return result;
-    }
-
-    private List<Long> toOrderIds(List<OrderQueryDto> result) {
-        return result.stream()
-                .map(o -> o.getOrderId())
-                .collect(Collectors.toList());
     }
 
     private Map<Long, List<OrderItemQueryDto>> findOrderItemMap(List<Long> orderIds) {
@@ -86,7 +86,7 @@ public class OrderQueryRepository {
         return orderItems.stream().collect(Collectors.groupingBy(OrderItemQueryDto::getOrderId));
     }
 
-    //V6
+    //v6
     public List<OrderFlatDto> findAllByDto_flat() {
 
         return em.createQuery(

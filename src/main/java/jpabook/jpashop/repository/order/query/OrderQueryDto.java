@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//v4, v5, v6
 @Data
 @EqualsAndHashCode(of = "orderId")
 public class OrderQueryDto {

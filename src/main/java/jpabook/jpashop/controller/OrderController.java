@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -44,6 +45,21 @@ public class OrderController {
                                     orderSearch, Model model) {
         List<Order> orders = orderService.findOrders(orderSearch);
         model.addAttribute("orders", orders);
+
+
+
+//        for(Order order : orders){
+//            System.out.println("kjh order.getOrderDate().plusHours(24) = " + order.getOrderDate().plusHours(24));
+//            LocalDateTime now = order.getOrderDate();
+//            System.out.println("now = " + now);
+//
+//            LocalDateTime alarmTime = order.getOrderDate().plusHours(23);
+//            System.out.println("alarmTime = " + alarmTime);
+//
+//            LocalDateTime cancelTime = order.getOrderDate().plusHours(24);
+//            System.out.println("cancelTime = " + cancelTime);
+//        }
+
         return "order/orderList";
     }
 

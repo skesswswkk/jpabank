@@ -77,7 +77,7 @@ public class MemberApiController {
 
         public CreateMemberResponse(Long id) {
             this.id = id;
-        }
+        }//=@AllArgsConstructor
     }
 
     //==2.수정==//
