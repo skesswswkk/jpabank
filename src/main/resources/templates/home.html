@@ -7,21 +7,24 @@
     <body>
         <div class="container">
             <div th:replace="fragments/bodyHeader :: bodyHeader" />
-            <div class="jumbotron"> <h1>HELLO SHOP</h1>
-                <p class="lead">회원 기능 </p>
+            <br>
+            <div class="jumbotron"> <h1>친구에게 이체</h1>
+                <br>
                 <p>
-                    <a class="btn btn-lg btn-secondary" href="/members/new">회원 가입</a>
-                    <a class="btn btn-lg btn-secondary" href="/members">회원 목록</a>
+                    <a class="btn btn-lg btn-dark" href="/accounts/new">내 은행/잔액 등록</a>
+                    <a class="btn btn-lg btn-dark" href="/accounts">내 은행/잔액 목록</a>
                 </p>
-                <p class="lead">상품 기능</p>
+
+                <br>
                 <p>
-                    <a class="btn btn-lg btn-dark" href="/items/new">상품 등록</a>
-                    <a class="btn btn-lg btn-dark" href="/items">상품 목록</a>
+                    <a class="btn btn-lg btn-secondary" href="/friends/new">친구 등록</a>
+                    <a class="btn btn-lg btn-secondary" href="/friends">친구 목록</a>
                 </p>
-                <p class="lead">주문 기능</p>
+
+                <br>
                 <p>
-                    <a class="btn btn-lg btn-info" href="/order">상품 주문</a>
-                    <a class="btn btn-lg btn-info" href="/orders">주문 내역</a>
+                    <a class="btn btn-lg btn-info" href="/transfer">이체하기</a>
+                    <a class="btn btn-lg btn-info" href="/transfers">이체 내역</a>
                 </p>
             </div>
             <div th:replace="fragments/footer :: footer" />

@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <div>
+            <form th:object="${transferSearch}" class="form-inline">
+                <div class="form-group mb-2">
+                    <input type="text" th:field="*{friendName}" class="form- control" placeholder="이체 받는 친구 이름"/>
+                </div>
+                <div class="form-group mx-sm-1 mb-2">
+                    <select th:field="*{transferStatus}" class="form-control">
+                        <option value="">주문상태</option>
+                        <option th:each="status : ${T(jpa.jpabank.domain.TransferStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status}">option
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">검색</button>
+            </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>이체 받는 친구 이름</th> <th>은행</th>
+                <th>이체금액</th> <th>상태</th> <th>일시</th> <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="transfer : ${transfers}">
+                <td th:text="${transfer.id}"></td>
+                <td th:text="${transfer.friend.name}"></td>
+                <td th:text="${transfer.transferAccounts[0].account.name}"></td>
+                <td th:text="${transfer.transferAccounts[0].transferMoney}"></td>
+                <td th:text="${transfer.transferStatus}"></td>
+                <td th:text="${transfer.transferDate}"></td>
+                <td>
+                    <a th:if="${transfer.transferStatus.name() == 'TRANSFER'}" href="#"
+                       th:href="'javascript:receive('+${transfer.id}+')'"
+                       class="btn btn-danger">받기</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+    <script>
+    function receive(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/transfers/" + id + "/receive");
+        document.body.appendChild(form);
+        form.submit();
+    }
+   </script>
+</html>

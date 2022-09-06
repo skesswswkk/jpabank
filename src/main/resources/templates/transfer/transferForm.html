@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <form role="form" action="/transfer" method="post">
+
+    <div class="form-group">
+      <label for="friend">친구 이름</label>
+      <select name="friendId" id="friend" class="form-control">
+        <option value="">친구 조회</option>
+        <option th:each="friend : ${friends}"
+                th:value="${friend.id}"
+                th:text="${friend.name}" />
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="account">출금 은행</label>
+      <select name="accountId" id="account" class="form-control"> <option value="">내 은행 조회</option>
+        <option th:each="account : ${accounts}"
+                th:value="${account.id}"
+                th:text="${account.name}" />
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="transferMoney">이체 금액</label>
+      <input type="number" name="transferMoney" class="form-control" id="transferMoney"  placeholder="이체 금액을 입력하세요">
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br/>
+  <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
